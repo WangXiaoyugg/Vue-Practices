@@ -15,6 +15,14 @@ export default new Router({
   mode:'hash',
   routes: [
     {
+      path:'/',
+      components:{
+        default:GoodList,
+        title:Title,
+        goodImg:GoodImage
+      }
+    },
+    {
       path: '/good/',
       name: 'GoodList',
       component: GoodList,
@@ -32,7 +40,7 @@ export default new Router({
       ]
     },
     {
-      path:'/cart',
+      path:'/cart/:cartId',
       name:'cart',
       component:Cart,
     }

@@ -6,7 +6,7 @@
     <div>
       <router-view></router-view>
     </div>
-    <router-link to="/cart">购物车链接</router-link>
+    <router-link :to="{name:'cart',params:{cartId:123456}}">购物车链接</router-link>
     <button @click="jump">跳转到购物车页面</button>
   </div>
 </template>
