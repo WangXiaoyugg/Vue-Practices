@@ -1,8 +1,11 @@
 <template>
   <div class="goodList">
     <h1>商品详情列表</h1>
-    <p>商品的ID :{{$route.params.goodId}}</p>
-    <p>商品的购买人:{{$route.params.name}}</p>
+    <router-link to="/good/title">商品标题</router-link>
+    <router-link to="/good/img">商品图片</router-link>
+    <div>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
