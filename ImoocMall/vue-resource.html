@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue-resource</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script src="./node_modules/vue-resource/dist/vue-resource.min.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>vue-rource的基本使用</h1>
+    <div class="container">
+        <button class="btn btn-primary" @click="get">Get请求</button>
+        <button class="btn btn-primary" @click="post">Post请求</button>
+        <button class="btn btn-primary" @click="jsonp">JSONP请求</button>
+    </div>
+    <div class="container">
+        <p>{{msg}}</p>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:''
+        },
+        methods:{
+            get(){
+                // GET /someUrl
+                this.$http.get('./package.json',{
+                    params:{
+                        userId:123456
+                    },
+                    headers:{
+                        token:'you are right'
+                    }
+                }).then(response => {
+                    // success callback
+                    if(response.status === 200){
+                        this.msg = response.data;
+                    }
+                }, error => {
+                    // error callback
+                    console.log(error);
+                });
+            },
+            post(){
+                this.$http.post('README.md', {
+                    username: 'garen'
+                },{
+                    headers:{
+                        garen_token:'garen right'
+                    }
+                }).then(res => {
+
+                    console.log(res);
+
+                    // get body data
+                    this.msg = res.body;
+
+                }, error => {
+                    // error callback
+                    console.log(error)
+                });
+            },
+            jsonp(){
+                this.$http.jsonp('https://www.imooc.com/index/getstarlist').then((res)=>{
+                    this.msg = res.data;
+                },err => {
+                    console.log(err);
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
