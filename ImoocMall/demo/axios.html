@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+</head>
+<body>
+<div class="container" id="app">
+    <h1>axios的基本使用</h1>
+    <div class="container">
+        <button class="btn btn-primary" @click="get">Get请求</button>
+        <button class="btn btn-primary" @click="post">Post请求</button>
+        <button class="btn btn-primary" @click="http">http请求</button>
+    </div>
+    <div class="container">
+        <p>{{msg}}</p>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:''
+        },
+        mounted(){
+            // Add a request interceptor
+            axios.interceptors.request.use((config) => {
+                // Do something before request is sent
+                console.log('before request init')
+                console.log('config',config);
+                return config;
+            }, (error) => {
+                // Do something with request error
+                return Promise.reject(error);
+            });
+
+            // Add a response interceptor
+            axios.interceptors.response.use((response)=>{
+                // Do something with response data
+                console.log('response end init');
+                console.log('response ',response)
+                return response;
+            }, (error) => {
+                // Do something with response error
+                return Promise.reject(error);
+            });
+        },
+        methods:{
+            get(){
+                axios.get('../package.json',{
+                    params:{
+                        userId:123
+                    },
+                    headers:{
+                        token:'garen'
+                    }
+                })
+                    .then( (res) => {
+                        if(res.status === 200){
+                            this.msg = res.data;
+                            console.log(res.data);
+
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            post(){
+                axios.post('../package.json', {
+                    firstName: 'Fred',
+                    lastName: 'Flintstone'
+                },{
+                    headers:{
+                        access_toke:'garen xxx'
+                    }
+                })
+                    .then((res) => {
+                        console.log(res);
+                        this.msg = res.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            http(){
+               axios({
+                   method:'get',
+                   url:'../package.json',
+                   //post 参数是data
+                   data:{
+                       firstname:"garen",
+                       lastname:'wang'
+                   },
+                   params:{
+                       username:'garen'
+                   },
+                   headers:{
+                       token:123456
+                   }
+               }).then((res) => {
+                   console.log(res);
+                   this.msg = res.data;
+               }).catch((error) => {
+                   console.log(error);
+               })
+            }
+        }
+    })
+</script>
+</body>
+</html>
+
