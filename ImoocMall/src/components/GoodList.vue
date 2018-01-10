@@ -21,9 +21,9 @@
     },
     methods:{
       jump(){
-//        this.$router.push('/cart')
+          import(`../util/index.js`);
           this.$router.push({path:'/cart?goodId=123456'})
-//          this.$router.go(-2);
+
       }
     }
   }
