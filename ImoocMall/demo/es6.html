@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6-DEMO</title>
+    <style>
+        #log{
+            background: #202020;
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>ES6 基础1</h1>
+    <div id="log">
+
+    </div>
+</div>
+<script>
+
+    var str = `
+        console.log(a);// a undefined
+        console.log(b);// b error
+        var a = 1
+        let b = 1;
+
+        {
+            let a = 1;
+            var b = 2;
+        }
+
+        console.log(a);// a error
+        console.log(b);// b 2;
+
+        const a = 1;
+         a = 2 ;
+        console.log(a); //a error 常量不能在赋值
+
+        const o = {};
+        o.a = 1;
+        o.b = 2;
+        console.log(o); //{a: 1, b: 2}
+        o = {a:10,b:10};//error
+
+        function add(x=10,y=10) {
+        return x+y;
+        }
+        console.log(add());//20
+
+        let arr = [1,2,3];
+        let newArr = arr.map(item => item * item);
+        console.log(newArr);
+
+        let [a,b,c] = [1,2,3];
+        console.log(a,b,c);
+        let [x,y,z] = 'Vue';
+        console.log(x,y,z);
+        let {m,n} = {n:10,m:20};
+        console.log(m,n);
+
+        function sum([x,y]){
+            return x+y;
+        }
+
+        console.log(sum([2,8]));
+    `
+    printLog(str);
+    let name = 'Garen';
+    printLog(`I'm ${name}`);
+
+
+
+
+    function printLog(str) {
+        document.getElementById('log').innerText += str;
+    }
+</script>
+</body>
+</html>

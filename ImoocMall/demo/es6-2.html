@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6-DEMO</title>
+    <style>
+        #log{
+            background: #202020;
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>ES6 基础2</h1>
+    <div id="log">
+
+    </div>
+</div>
+<script>
+
+    var str = `
+        //rest 参数
+         var sum = (...m) => {
+            let total = 0;
+            for(let i of m){
+                total += i;
+            }
+            return total;
+         }
+         console.log(sum(1,10,2));
+
+         //扩展
+         let arr1 = [1,2,3];
+         let arr2 = [2,3,5];
+         console.log([...arr1,...arr2]);
+
+         let [a,...b] = 'vue';
+         console.log(a,b);
+
+          let xyz =[...'ES6'];
+          console.log(xyz);
+    `
+
+
+    printLog(str);
+
+
+
+
+
+    function printLog(str) {
+        document.getElementById('log').innerText += str;
+    }
+</script>
+</body>
+</html>
