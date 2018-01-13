@@ -4,6 +4,7 @@
         <nav-bread>
             <span slot="breadName">Goods</span>
         </nav-bread>
+
         <div class="accessory-result-page accessory-page">
             <div class="container">
                 <div class="filter-nav">
@@ -13,16 +14,27 @@
                         <svg class="icon icon-arrow-short">
                             <use xlink:href="#icon-arrow-short"></use>
                         </svg></a>
-                    <a href="javascript:void(0)" class="filterby stopPop">Filter by</a>
+                    <a href="javascript:void(0)"
+                       class="filterby stopPop"
+                       @click="showFilterPop">Filter by</a>
                 </div>
                 <div class="accessory-result">
                     <!-- filter -->
-                    <div class="filter stopPop" id="filter">
+                    <div class="filter stopPop"
+                         id="filter"
+                         v-bind:class="{'filterby-show':filterBy}">
                         <dl class="filter-price">
                             <dt>Price:</dt>
-                            <dd><a href="javascript:void(0)">All</a></dd>
                             <dd>
-                                <a href="javascript:void(0)">0 - 100</a>
+                                <a href="javascript:void(0)"
+                                   v-bind:class="{'cur': priceChecked ==='all'}"
+                                   @click="priceChecked = 'all'">All</a>
+                            </dd>
+                            <dd v-for="(price,index) in priceFilter">
+                                <a  href="javascript:void(0)"
+                                    v-bind:class="{'cur':priceChecked === index}"
+                                    @click="setPriceFilter(index)">
+                                    {{price.startPrice}} - {{price.endPrice}}</a>
                             </dd>
                         </dl>
                     </div>
@@ -34,7 +46,7 @@
                                 <li v-for="(item,index) in goodsList">
                                     <div class="pic">
                                         <a href="#">
-                                            <img v-bind:src=" '../../static/' + item.productImg"
+                                            <img v-lazy=" '../../static/' + item.productImg"
                                                  alt="">
                                         </a>
                                     </div>
@@ -52,7 +64,10 @@
                 </div>
             </div>
         </div>
-
+        <div class="md-overlay "
+             v-show="overlayFlag"
+             @click="closePop"></div>
+        <nav-footer></nav-footer>
     </div>
 </template>
 
@@ -62,13 +77,19 @@
     import NavHeader from '@/components/NavHeader'
     import NavFooter from '@/components/NavFooter'
     import NavBread  from '@/components/NavBread'
+    import priceFilter from '../../mock/prices'
     import axios from 'axios'
 
+    console.log('priceFilter',priceFilter);
     export default {
         name: 'GoodList',
         data () {
             return {
-               goodsList:[]
+                 goodsList:[],
+                 priceFilter:priceFilter,
+                 priceChecked:'all',
+                 filterBy:false,
+                 overlayFlag:false,
             }
         },
         components:{
@@ -89,6 +110,18 @@
                 }).catch((e) => {
                     console.log(e)
                 })
+            },
+            showFilterPop(){
+                this.filterBy = true;
+                this.overlayFlag = true;
+            },
+            closePop(){
+                this.filterBy = false;
+                this.overlayFlag = false;
+            },
+            setPriceFilter(index){
+                this.priceChecked = index;
+                this.closePop();
             }
         }
 
